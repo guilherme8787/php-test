@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AuthenticateRequest;
 use App\Repositories\User\UserRepositoryContract;
-use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -11,7 +11,7 @@ class AuthController extends Controller
     {
     }
 
-    public function __invoke(Request $request)
+    public function __invoke(AuthenticateRequest $request)
     {
         return $this->userRepository->authenticate(
             $request->only('login', 'password')
