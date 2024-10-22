@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +15,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/healthcheck', function (Request $request) {
+        return true;
+    });
 });
+
+Route::post('/login', App\Http\Controllers\AuthController::class)
+    ->name('login');
