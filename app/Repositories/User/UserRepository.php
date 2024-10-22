@@ -2,6 +2,7 @@
 
 namespace App\Repositories\User;
 
+use App\Http\Resources\UserTokenResource;
 use App\Models\User;
 use App\Repositories\BaseRepository;
 use Illuminate\Http\JsonResponse;
@@ -34,13 +35,13 @@ class UserRepository extends BaseRepository implements UserRepositoryContract
                 ], Response::HTTP_UNAUTHORIZED);
             }
 
-            return response()->json([
-                'token' => $user->createToken('token-name')->plainTextToken
-            ], Response::HTTP_OK);
+            $token = $user->createToken('user-token')->plainTextToken;
+
+            return response()->json(new UserTokenResource($token), Response::HTTP_OK);
 
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Internal server error'
+                'message' => $e->getMessage()
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
