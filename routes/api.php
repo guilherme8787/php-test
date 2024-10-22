@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', 'cheetos'])->group(function () {
     Route::get('/healthcheck', function (Request $request) {
         return true;
     });
