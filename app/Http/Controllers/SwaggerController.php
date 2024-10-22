@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 /**
  * @OA\Info(
- *     title="API de Projetos de Energia Solar",
+ *     title="API do teste em php",
  *     version="1.0.0",
- *     description="Documentação da API para gestão de projetos de energia solar",
+ *     description="Documentação da API do teste em php",
  *     @OA\Contact(
- *         email="contato@seudominio.com"
+ *         email="guilherme8787@gmail.com"
  *     )
  * ),
  * @OA\Server(
