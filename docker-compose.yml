@@ -3,9 +3,6 @@ version: "3"
 services:
   app:
     build: .
-    volumes:
-      - ./:/var/www/html
-      - ./.env.example:/var/www/html/.env
     environment:
       - PHP_OPCACHE_VALIDATE_TIMESTAMPS=0
       - PHP_OPCACHE_MAX_ACCELERATED_FILES=10000

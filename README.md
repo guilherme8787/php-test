@@ -74,3 +74,8 @@ docker compose exec app php artisan app:populate-teams-command
 ```bash
 docker compose exec app php artisan app:populate-players-command
 ```
+
+## Como executar os testes
+```bash
+docker compose exec app php artisan test
+```
