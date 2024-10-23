@@ -18,6 +18,6 @@ class GetAllPlayerController extends Controller
     {
         return response()->json([
             'data' => $this->playerRepository->all(),
-        ], Response::HTTP_ACCEPTED);
+        ], Response::HTTP_OK);
     }
 }

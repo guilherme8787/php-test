@@ -20,6 +20,6 @@ class GetPlayerController extends Controller
 
         return response()->json([
             'data' => $player,
-        ], Response::HTTP_ACCEPTED);
+        ], Response::HTTP_OK);
     }
 }
