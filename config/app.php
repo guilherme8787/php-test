@@ -170,6 +170,9 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         App\Providers\UserRepositoryProvider::class,
+        App\Providers\PlayerRepositoryProvider::class,
+        App\Providers\TeamRepositoryProvider::class,
+        App\Providers\BallDontLieServiceProvider::class,
     ])->toArray(),
 
     /*
