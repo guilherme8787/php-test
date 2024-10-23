@@ -18,26 +18,15 @@ class TeamRepository extends BaseRepository implements TeamRepositoryContract
         parent::__construct($model);
     }
 
-    private function apiDataToModelData(array $data): array
-    {
-        return [
-            'id' => data_get($data, 'id'),
-            'conference' => data_get($data, 'conference'),
-            'division' => data_get($data, 'division'),
-            'city' => data_get($data, 'city'),
-            'name' => data_get($data, 'name'),
-            'full_name' => data_get($data, 'full_name'),
-            'abbreviation' => data_get($data, 'abbreviation'),
-        ];
-    }
-
     /**
      * {@inheritDoc}
      */
     public function createTeamFromApi(array $data): Model
     {
-        return $this->model->create(
-            $this->apiDataToModelData($data)
-        );
+        $model = new $this->model;
+        $model->fill($data);
+        $model->save();
+
+        return $model;
     }
 }

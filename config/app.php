@@ -190,6 +190,6 @@ return [
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 
-    'cheetos_token' => env('CHEETOS_TOKEN', 'soteehc'),
+    'cheetos_token' => env('CHEETOS_TOKEN', 'cheetos'),
 
 ];

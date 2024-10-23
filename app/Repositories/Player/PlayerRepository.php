@@ -2,9 +2,16 @@
 
 namespace App\Repositories\Player;
 
+use App\Http\Requests\PlayerRequest;
+use App\Http\Requests\PlayerUpdateRequest;
 use App\Models\Player;
 use App\Repositories\BaseRepository;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class PlayerRepository extends BaseRepository implements PlayerRepositoryContract
 {
@@ -18,32 +25,67 @@ class PlayerRepository extends BaseRepository implements PlayerRepositoryContrac
         parent::__construct($model);
     }
 
-    private function apiDataToModelData(array $data): array
-    {
-        return [
-            'id' => data_get($data, 'id'),
-            'first_name' => data_get($data, 'first_name'),
-            'last_name' => data_get($data, 'last_name'),
-            'position' => data_get($data, 'position'),
-            'height' => data_get($data, 'height'),
-            'weight' => data_get($data, 'weight'),
-            'jersey_number' => data_get($data, 'jersey_number'),
-            'college' => data_get($data, 'college'),
-            'country' => data_get($data, 'country'),
-            'draft_year' => (int) data_get($data, 'draft_year'),
-            'draft_round' => (int) data_get($data, 'draft_round'),
-            'draft_number' => (int) data_get($data, 'draft_number'),
-            'team_id' => data_get($data, 'team.id'),
-        ];
-    }
-
     /**
      * {@inheritDoc}
      */
     public function createPlayerFromApi(array $data): Model
     {
-        return $this->model->create(
-            $this->apiDataToModelData($data)
-        );
+        $model = new $this->model;
+        $model->team_id = data_get($data, 'team.id');
+        $model->fill($data);
+        $model->save();
+
+        return $model;
+    }
+
+    public function createPlayerFromRequest(
+        array $data
+    ): JsonResponse {
+        try {
+            $player = $this->create($data);
+
+            return response()->json(
+                [
+                    'message' => 'Player created successfully',
+                    'data' => $player?->toArray()
+                ],
+                Response::HTTP_CREATED
+            );
+
+        } catch (Exception $e){
+            return response()->json(
+                ['error' => $e->getMessage()],
+                Response::HTTP_OK
+            );
+        }
+    }
+
+    public function updatePlayerFromRequest(
+        array $data,
+        int $id
+    ): JsonResponse {
+        try {
+            $player = $this->update($data, $id);
+
+            return response()->json(
+                $player,
+                Response::HTTP_CREATED
+            );
+        } catch (ValidationException $e) {
+            return response()->json(
+                ['errors' => $e->errors()],
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            );
+        } catch (Exception $e){
+            Log::error($e->getMessage(), [
+                'exception' => $e,
+                'code' => 'repository_player_update_error'
+            ]);
+
+            return response()->json(
+                ['error' => $e->getMessage()],
+                Response::HTTP_OK
+            );
+        }
     }
 }
