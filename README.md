@@ -4,13 +4,9 @@
 - Docker
 - Docker Compose
 
-## Documentação Postman da api
+## Documentação Postman da api para importar no Postman caso prefira
 
-- [Documentação da API]()
-
-## Tambem tem o arquivo para importar no Postman caso prefira
-
-- `./php-test.json`
+- `./PHP_Teste.postman_collection.json`
 
 ### Caso não queira usar docker, você irá precisar configurar a aplicação com banco e redis local
 
@@ -62,7 +58,19 @@ docker compose exec app composer install
 cp .env.example .env
 ```
 
-### URLs Acessíveis
+### 7. URLs Acessíveis
 
 - Aplicação: [http://127.0.0.1:9000](http://127.0.0.1:9000)
 - Adminer (gerenciador de banco de dados): [http://127.0.0.1:8080](http://127.0.0.1:8080)
+
+### 8. Executando as commands
+
+## Execute a command abaixo para importar os times
+```bash
+docker compose exec app php artisan app:populate-teams-command
+```
+
+## Execute a command abaixo para importar os jogadores
+```bash
+docker compose exec app php artisan app:populate-players-command
+```
